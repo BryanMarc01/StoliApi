@@ -16,21 +16,27 @@ jobs:
       script:
         - docker build -t $DOCKER_USERNAME/backend:latest .
         - docker images  # Listar imágenes para depuración
+      after_script:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker tag $DOCKER_USERNAME/backend:latest $DOCKER_USERNAME/backend:build
+        - docker push $DOCKER_USERNAME/backend:build
 
     - stage: Test
       name: 'Run Tests'
       script:
-        - docker build -t $DOCKER_USERNAME/backend:test --target test .
-        - docker run $DOCKER_USERNAME/backend:test
+        - docker pull $DOCKER_USERNAME/backend:build
+        - docker tag $DOCKER_USERNAME/backend:build $DOCKER_USERNAME/backend:test
         - docker images  # Listar imágenes para depuración
+        - docker run $DOCKER_USERNAME/backend:test
 
     - stage: Deploy
       name: 'Deploy Docker Image'
       script:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker pull $DOCKER_USERNAME/backend:build
+        - docker tag $DOCKER_USERNAME/backend:build $DOCKER_USERNAME/backend:latest
         - docker images  # Listar imágenes antes del push
-        - bash deploy_backend.sh  # Script para desplegar en producción
-      if: branch = main
+        - docker push $DOCKER_USERNAME/backend:latest
 
 stages:
   - name: Build
