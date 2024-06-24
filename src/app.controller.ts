@@ -27,7 +27,7 @@ export class AppController {
       throw error;
     }
   }
-  //hi
+  
   @Get('receive/kafka')
   async receiveKafkaMessages() {
     const messages = this.kafkaService.getMessages();
