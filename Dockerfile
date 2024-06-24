@@ -26,7 +26,7 @@ WORKDIR /usr/src/app
 COPY --from=build /usr/src/app/dist ./dist
 
 # Copia el archivo .env al contenedor
-COPY .env .env
+COPY .env ./
 
 # Instala solo las dependencias de producción
 COPY package*.json ./
