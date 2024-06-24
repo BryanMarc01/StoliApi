@@ -24,6 +24,12 @@ jobs:
           - docker images
         - docker run $DOCKER_USERNAME/backend:test
 
+ - stage: Manual Approval
+      name: 'Manual Approval'
+      script:
+        - echo "Manual approval required before deploying"
+      if: type = push
+
     - stage: Deploy
       name: 'Deploy Docker Image'
       script:
