@@ -27,7 +27,7 @@ jobs:
  - stage: Manual Approval
       name: 'Manual Approval'
       script:
-        - echo "Manual approval required before deploying"
+        - echo "Manual approval"
       if: type = push
 
     - stage: Deploy
