@@ -15,18 +15,20 @@ jobs:
       name: 'Build Docker Image'
       script:
         - docker build -t $DOCKER_USERNAME/backend:latest .
-     
+       - docker images
 
     - stage: Test
       name: 'Run Tests'
       script:
         - docker build -t $DOCKER_USERNAME/backend:test --target test .
+          - docker images
         - docker run $DOCKER_USERNAME/backend:test
 
     - stage: Deploy
       name: 'Deploy Docker Image'
       script:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+          - docker images
         - docker push $DOCKER_USERNAME/backend:latest
       if: branch = main
 
