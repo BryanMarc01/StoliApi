@@ -18,6 +18,7 @@ export class SqsService {
     });
   }
 
+  //Red
   async sendMessage(messageBody: string): Promise<void> {
     const command = new SendMessageCommand({
       QueueUrl: this.queueUrl,
