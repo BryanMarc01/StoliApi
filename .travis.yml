@@ -2,7 +2,9 @@ dist: bionic
 language: node_js
 node_js: '16'
 
-sudo: required
+services:
+  - docker
+
 branches:
   only:
     - main
@@ -12,20 +14,42 @@ jobs:
     - stage: Build
       name: 'Run Build'
       script:
-        - npm run build
+        - docker build -t bryanmarc01/backend:latest .
 
     - stage: Test
       name: 'Run Tests'
       script:
-        - npm test
+        - docker run bryanmarc01/backend:latest npm test
+
+    - stage: Manual Approval
+      name: 'Manual Approval'
+      script:
+        - echo "Waiting for manual approval"
+      if: type = push
 
     - stage: Backend Deployment
       name: 'Run Backend Deployment'
       script:
-        - echo "Deploy now!"
-
-      deploy:
-        on:
-          branch: main
-
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker push bryanmarc01/backend:latest
       if: type = push
+
+stages:
+  - name: Build
+  - name: Test
+  - name: Manual Approval
+    if: type = push
+  - name: Deploy
+    if: type = push
+
+before_deploy:
+  - echo "Starting deployment"
+
+deploy:
+  provider: script
+  script: bash deploy_backend.sh
+  on:
+    branch: main
+  skip_cleanup: true
+  edge: true
+  wait-for-approval: true
