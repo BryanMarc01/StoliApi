@@ -5,9 +5,14 @@ set -e
 
 # Variables de configuración
 APP_NAME="backend"
-SERVER_USER="ubuntu"
-SERVER_IP="3.141.189.187"
-DOCKER_IMAGE="bryanmarc01/backend:latest"
+SERVER_USER="$SERVER_USER"
+SERVER_IP="$SERVER_IP"
+DOCKER_IMAGE="$DOCKER_USERNAME/backend:latest"
+
+echo "$SSH_KEY" | base64 --decode > /tmp/deploy_key
+chmod 600 /tmp/deploy_key
+eval "$(ssh-agent -s)"
+ssh-add /tmp/deploy_key
 
 echo "Iniciando despliegue de $APP_NAME a $SERVER_IP"
 

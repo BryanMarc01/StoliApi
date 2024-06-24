@@ -29,7 +29,6 @@ jobs:
       script:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker images  # Listar imágenes antes del push
-        - docker push $DOCKER_USERNAME/backend:latest
         - bash deploy_backend.sh  # Script para desplegar en producción
       if: branch = main
 
