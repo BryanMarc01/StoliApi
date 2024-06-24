@@ -24,7 +24,7 @@ jobs:
         - docker run $DOCKER_USERNAME/backend:test
         - docker images  # Listar imágenes para depuración
 
-   - stage: Deploy
+    - stage: Deploy
       name: 'Deploy Docker Image'
       script:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
