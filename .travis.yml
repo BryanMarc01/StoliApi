@@ -16,7 +16,7 @@ jobs:
       script:
         - docker build -t $DOCKER_USERNAME/backend:latest .
        - docker images
-
+  - docker tag $DOCKER_USERNAME/backend:latest $DOCKER_USERNAME/backend:latest 
     - stage: Test
       name: 'Run Tests'
       script:
