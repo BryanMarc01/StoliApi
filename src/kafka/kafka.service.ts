@@ -7,7 +7,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Message } from '../message/schemas/message.schema';
 import { MESSAGE_MODEL_NAME } from '../message/schemas/message.schema';
-
+//k
 @Injectable()
 export class KafkaService implements OnModuleInit, OnModuleDestroy {
   private kafka: Kafka;
