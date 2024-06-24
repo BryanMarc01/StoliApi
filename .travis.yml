@@ -24,19 +24,6 @@ jobs:
           - docker images
         - docker run $DOCKER_USERNAME/backend:test
 
- - stage: Manual Approval
-      name: 'Manual Approval'
-      script:
-        - echo "Manual approval"
-      if: type = push
-
-    - stage: Deploy
-      name: 'Deploy Docker Image'
-      script:
-        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-          - docker images
-        - docker push $DOCKER_USERNAME/backend:latest
-      if: branch = main
 
 stages:
   - name: Build
