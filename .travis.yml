@@ -1,0 +1,31 @@
+dist: bionic
+language: node_js
+node_js: '16'
+
+sudo: required
+branches:
+  only:
+    - main
+
+jobs:
+  include:
+    - stage: Build
+      name: 'Run Build'
+      script:
+        - npm run build
+
+    - stage: Test
+      name: 'Run Tests'
+      script:
+        - npm test
+
+    - stage: Backend Deployment
+      name: 'Run Backend Deployment'
+      script:
+        - echo "Deploy now!"
+
+      deploy:
+        on:
+          branch: main
+
+      if: type = push
